@@ -1,0 +1,18 @@
+Index: bot_boltalka.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>#5047767941:AAHCA6-6TfOnIXJ_kp0e37xt4qlQcWb6098\r\n\r\n# Put your Telegram token here\r\nimport telebot as telebot\r\n\r\nbot = telebot.TeleBot('5047767941:AAHCA6-6TfOnIXJ_kp0e37xt4qlQcWb6098')\r\n\r\n\r\n# -*- coding: utf-8 -*-\r\nimport os\r\nfrom fuzzywuzzy import fuzz\r\n\r\n# Load lines from file to memory\r\n\r\nmas=[]\r\nif os.path.exists('boltun.txt.txt'):\r\n    f=open('boltun.txt.txt','r',encoding='UTF-8')\r\n    for x in f:\r\n        if(len(x.strip())>2):\r\n            mas.append(x.strip().lower())\r\n    f.close()\r\n\r\n# Answer function\r\n\r\ndef answer(text):\r\n    global aa\r\n    try:\r\n        text=text.lower().strip()\r\n        if os.path.exists('boltun.txt.txt'):\r\n            a=0\r\n            n=0\r\n            nn=0\r\n            for q in mas:\r\n                if('u: ' in q):\r\n                    aa=(fuzz.token_sort_ratio(q.replace('u: ',''), text))\r\n                    if(aa>a and aa!=a):\r\n                        a=aa\r\n                        nn=n\r\n                n=n+1\r\n            s=mas[nn+1]\r\n            return s, aa\r\n        else:\r\n            return None, 0\r\n    except:\r\n        return None, 0\r\n\r\n\r\n\r\n# First command\r\n@bot.message_handler(commands=[\"start\"])\r\ndef start(m, res=False):\r\n        bot.send_message(m.chat.id, 'Я на связи. Напиши мне что-нибудь )')\r\n\r\n# Get messages, answer, and save log\r\n@bot.message_handler(content_types=[\"text\"])\r\ndef handle_text(message):\r\n    f=open(str(message.chat.id)+'_log.txt','a',encoding='UTF-8')\r\n    otvet, aa=answer(message.text)\r\n    f.write('u: '+message.text+'\\n'+otvet+'\\n')\r\n    f.close()\r\n    bot.send_message(message.chat.id, otvet)\r\n\r\n# Start bot\r\nbot.polling(none_stop=True, interval=0).юю
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/bot_boltalka.py b/bot_boltalka.py
+--- a/bot_boltalka.py	(revision aa947d81004e9db4a1c552b3a8a9d7a237ce11a0)
++++ b/bot_boltalka.py	(date 1644751966740)
+@@ -61,4 +61,4 @@
+     bot.send_message(message.chat.id, otvet)
+ 
+ # Start bot
+-bot.polling(none_stop=True, interval=0).юю
+\ No newline at end of file
++bot.polling(none_stop=True, interval=0)
+\ No newline at end of file
